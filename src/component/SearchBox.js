@@ -1,18 +1,35 @@
 import React from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 
 const SearchBox = () => {
-  return (
-    <Row>
-        <Col lg={10}>
-        <Form.Control type="text" placeholder="Enter name" />
-        </Col>
 
-        <Col lg={2}>
-        <Button>Search</Button>
+  let [keyword, setKeyword] = useState("");
+  let dispatch = useDispatch();
+  let { contact } = useSelector((state) => state);
+  const searchByName = (event) => {
+    event.preventDefault();
+    dispatch({ type: "SEARCH_BY_USERNAME", payload: { keyword } });
+  };
+
+
+  return (
+    <Form onSubmit={searchByName} className="search-form">
+      <Row>
+        <Col>
+          <Form.Control
+            type="text"
+            placeholder="name"
+            onChange={(event) => setKeyword(event.target.value)}
+          />
         </Col>
-    </Row>
-  )
-}
+        <Col>
+          <Button type="submit">Search</Button>
+        </Col>
+      </Row>
+    </Form>
+  );
+};
 
 export default SearchBox
